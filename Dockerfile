@@ -1,7 +1,12 @@
 FROM fedora
 
-RUN dnf -y install openldap openldap-servers openldap-clients
-RUN rm -rf /var/lib/rpm/* /var/lib/dnf/*
+RUN dnf -y install \
+    openldap \
+    openldap-servers \
+    openldap-clients \
+    && rm -rf \
+    /var/lib/rpm/* \
+    /var/lib/dnf/*
 
 COPY ldif /etc/openldap/init
 COPY docker-entrypoint.sh /usr/local/bin
