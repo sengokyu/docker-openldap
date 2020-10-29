@@ -2,6 +2,16 @@
 
 set -e
 
+etc_dir=/etc/openldap
+config_dir=${etc_dir}/slapd.d
+configured_flag=${etc_dir}/.configured
+
+if [ -f $configured_flag ]; then
+    exec "$@"
+fi
+
+echo 'Configurering OpenLDAP Server.'
+
 if [ -z "$SUFFIX" ]; then
     echo 'SUFFIX not specified. Re run docker command with -e SUFFIX=...'
     echo ' Example: docker run -e SUFFIX=dc=example,dc=com openldap'
@@ -12,8 +22,6 @@ if [ -z "$ROOT_PW" ]; then
     echo 'ROOT_PW not specified. Default password will be used.'
 fi
 
-etc_dir=/etc/openldap
-config_dir=${etc_dir}/slapd.d
 schemas="collective corba cosine duaconf \
     dyngroup inetorgperson java misc \
     nis openldap pmi ppolicy"
@@ -60,5 +68,7 @@ add_base_entry() {
 add_init_config
 add_schema
 add_base_entry
+
+touch ${configured_flag}
 
 exec "$@"
