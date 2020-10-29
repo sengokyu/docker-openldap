@@ -5,7 +5,7 @@
 # Get Start
 
 ```
-docker run -d -p 389:389 -e SUFFIX=dc=example,dc=com openldap
+docker run -d -p 389:389 -e SUFFIX=dc=example,dc=com sengokyu/openldap
 ```
 
 # Configuration
